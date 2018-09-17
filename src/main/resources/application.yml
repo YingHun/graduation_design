@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: dev
+
+# configuration server
+server:
+  port: 8080
+  servlet:
+    context-path: /lilun
+
+---
+spring:
+  profiles: dev
+
+---
+spring:
+  profiles: test
+
+---
+spring:
+  profiles: gld
+
+---
+spring:
+  profiles: prod
