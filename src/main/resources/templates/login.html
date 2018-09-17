@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="common/common_layout">
 <head>
     <meta charset="UTF-8">
-    <title>系统登录</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Graduation Design</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="all">
+    <script type="application/javascript" th:src="@{/layui/layui.all.js}"></script>
 </head>
-<body>
-
+<body class="login-bg">
+<div class="container">
+    <form class="layui-form" action="" lay-filter="example">
+        <h2 class="login-title">进销管理系统</h2>
+        <div class="layui-form-item layui-form-input">
+            <label class="layui-form-label layui-form-icon">
+                <i class="layui-icon layui-icon-username"></i>
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" id="username" autocomplete="off" placeholder="账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-input">
+            <label class="layui-form-label layui-form-icon">
+                <i class="layui-icon layui-icon-password"></i>
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" id="password" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="login-btn">
+            <button class="layui-btn layui-btn-fluid">
+                <i class="layui-icon layui-icon-release"></i>登录
+            </button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
