@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 /**
  * @author Li Lun
  * @date 2018/9/17 11:09
- * @description this is description
+ * @description 程序启动函数
  */
 
 @SpringBootApplication(scanBasePackages = "com.dl", exclude = DataSourceAutoConfiguration.class)

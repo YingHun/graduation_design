@@ -1,6 +1,32 @@
 spring:
+  # configuration profile
   profiles:
     active: dev
+  # configuration thymeleaf template
+  thymeleaf:
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html;charset=utf-8
+  messages:
+    always-use-message-format: false
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: true
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  jackson:
+    default-property-inclusion: non_null
+    deserialization.fail_on_unknown_properties: false
+
+mybatis:
+  type-aliases-package: com.dl.entity
+  mapper-locations: classpath:/mappers/*.xml
 
 # configuration server
 server:
