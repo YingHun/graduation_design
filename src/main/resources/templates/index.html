@@ -3,13 +3,91 @@
       layout:decorator="common/common_layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Graduation Design</title>
-    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all">
-    <script type="application/javascript" th:src="@{/static/layui/layui.all.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}" media="all">
 </head>
-<body>
-Hello World!
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--layui-header start-->
+    <div class="layui-header">
+        <div class="layui-logo">营销商品管理系统</div>
+        <ul class="layui-nav layui-layout-left">
+            <span class="layui-breadcrumb layui-breadcrumb-nav">
+                <a href="/">
+                    <i class="layui-icon layui-icon-home"></i> 首页
+                </a>
+                <a href="/demo/">
+                    <i class="layui-icon layui-icon-username">基本资料</i>
+                </a>
+            </span>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">李伦
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <!--end layui-header-->
+
+    <!--layui-side start-->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">发布商品</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--end layui-side-->
+
+    <!--layui-body start-->
+    <div class="layui-body">
+        <div class="layui-container">
+            Hello World!
+        </div>
+    </div>
+    <!--end layui-body-->
+
+    <!--layui-footer start-->
+    <div class="layui-footer">
+        All rights reserved,the right infringement must investigate! ©lilun
+    </div>
+    <!--end layui-footer-->
+</div>
+<script type="application/javascript" th:src="@{/layui/layui.all.js}"></script>
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
 </body>
 </html>
