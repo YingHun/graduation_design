@@ -18,7 +18,12 @@ public class UserEntity {
     /**
      * 编号
      */
-    private Long id;
+    private Integer id;
+
+    /**
+     * 账号
+     */
+    private String account;
 
     /**
      * 姓名
