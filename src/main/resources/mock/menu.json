@@ -1,0 +1,20 @@
+{
+  "code": 200,
+  "msg": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "首页",
+      "icon": "layui-icon layui-icon-home",
+      "url": "/index",
+      "sort": 1
+    },
+    {
+      "id": 2,
+      "name": "订单详情",
+      "icon": "layui-icon layui-icon-home",
+      "url": "/order/item",
+      "sort": 2
+    }
+  ]
+}

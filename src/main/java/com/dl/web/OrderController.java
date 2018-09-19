@@ -1,5 +1,6 @@
 package com.dl.web;
 
+import com.dl.util.JsonUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,15 +27,6 @@ public class OrderController {
     @RequestMapping("list")
     @ResponseBody
     public String list() throws IOException {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("mock/order.json");
-        ByteArrayOutputStream arrayOutput = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-
-        int index = 0;
-        while ((index = inputStream.read(buffer)) > 0) {
-            arrayOutput.write(buffer, 0, index);
-        }
-        String result = new String(arrayOutput.toByteArray());
-        return result;
+        return JsonUtil.getFromJson("mock/order.json");
     }
 }
