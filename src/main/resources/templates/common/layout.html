@@ -6,13 +6,15 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <!--layui-header start-->
-    <div class="layui-header" th:include="common/layout_nav::nav"></div>
-    <!--end layui-header-->
+    <div class="layui-header">
+        <!--layui-header start-->
+        <div th:include="common/layout_nav::nav"></div>
+        <!--end layui-header-->
 
-    <!--layui-side start-->
-    <div class="layui-side layui-bg-black" th:include="common/layout_sider::menu"></div>
-    <!--end layui-side-->
+        <!--layui-side start-->
+        <div class="layui-side layui-bg-black" th:include="common/layout_sider::menu"></div>
+        <!--end layui-side-->
+    </div>
 
     <!--layui-body start-->
     <div class="layui-body layui-container">
