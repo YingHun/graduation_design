@@ -43,11 +43,6 @@
     line-height: 60px;
 }
 
-.layui-container {
-    height: 100%;
-    position: absolute;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    padding: 0px 10px;
+.layui-content-container {
+    padding: 5px 15px;
 }
