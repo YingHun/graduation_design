@@ -32,7 +32,7 @@ public class IndexController {
     }
 
     @PostMapping("logout")
-    public String logout(HttpServletRequest httpServletRequest, Long userId) {
+    public String logout(HttpServletRequest httpServletRequest, Integer userId) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userId);
         SessionStorageConfig.clearSession(userEntity);

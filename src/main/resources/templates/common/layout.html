@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/decorator}">
+<head>
+    <title>Graduation Design</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--layui-header start-->
+    <div class="layui-header" th:include="common/layout_nav::nav"></div>
+    <!--end layui-header-->
+
+    <!--layui-side start-->
+    <div class="layui-side layui-bg-black" th:include="common/layout_sider::menu"></div>
+    <!--end layui-side-->
+
+    <!--layui-body start-->
+    <div class="layui-body layui-container">
+        <div layout:fragment="content_container"></div>
+    </div>
+    <!--end layui-body-->
+
+    <!--layui-footer start-->
+    <div class="layui-footer" th:include="common/layout_footer::copyright"></div>
+    <!--end layui-footer-->
+</div>
+</body>
+</html>

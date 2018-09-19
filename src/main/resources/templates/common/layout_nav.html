@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="common/layout">
+<head>
+    <title>Graduation Design</title>
+</head>
+<body>
+<div th:fragment="nav">
+    <div class="layui-logo">营销商品管理系统</div>
+    <ul class="layui-nav layui-layout-left">
+            <span class="layui-breadcrumb layui-breadcrumb-nav">
+                <a href="/">
+                    <i class="layui-icon layui-icon-home"></i> 首页
+                </a>
+                <a href="/demo/">
+                    <i class="layui-icon layui-icon-username">基本资料</i>
+                </a>
+            </span>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">李伦
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="">基本资料</a></dd>
+                <dd><a href="">安全退出</a></dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
