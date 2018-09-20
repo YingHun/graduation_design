@@ -1,5 +1,7 @@
 package com.dl.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +14,10 @@ import java.io.InputStream;
 
 public final class JsonUtil {
 
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
     public static String getFromJson(String jsonPath) {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("mock/order.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jsonPath);
         ByteArrayOutputStream arrayOutput = new ByteArrayOutputStream();
 
         try {
@@ -27,5 +31,16 @@ public final class JsonUtil {
         }
 
         return new String(arrayOutput.toByteArray());
+    }
+
+    public static <T> T parseJson(String json, Class<T> clazz) {
+        T t;
+        try {
+            t = objectMapper.readValue(json, clazz);
+        } catch (Exception e) {
+            throw new RuntimeException("parse json to " + clazz.getSimpleName() + " failed!");
+        }
+
+        return t;
     }
 }
