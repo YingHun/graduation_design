@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,16 @@ public class IndexController {
 
     @RequestMapping("index")
     public String index(UserEntity userEntity, ModelMap modelMap) {
+        if (StringUtils.isEmpty(userEntity.getAccount())) {
+            modelMap.put("message", "账号不能为空！");
+            return "login";
+        }
+
+        if (StringUtils.isEmpty(userEntity.getPassword())) {
+            modelMap.put("message", "密码不能为空！");
+            return "login";
+        }
+
         UserEntity entity = userService.searchUser(userEntity);
         if (Objects.isNull(entity)) {
             return "login";
@@ -47,10 +58,7 @@ public class IndexController {
     }
 
     @PostMapping("logout")
-    public String logout(HttpServletRequest httpServletRequest, Integer userId) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(userId);
-        SessionStorageConfig.clearSession(userEntity);
-        return "login";
+    public String logout() {
+        return "redirect:/login?logout";
     }
 }

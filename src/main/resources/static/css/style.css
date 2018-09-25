@@ -11,6 +11,13 @@
     color: #61c32e;
 }
 
+.login-tip {
+    height: 36px;
+    line-height: 36px \9;
+    text-align: center;
+    color: #f55f0d;
+}
+
 .container {
     width: 260px;
     padding: 40px 60px;
