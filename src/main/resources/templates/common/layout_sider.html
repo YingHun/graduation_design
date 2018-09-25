@@ -7,9 +7,10 @@
 <body>
 <div th:fragment="menu">
     <div class="layui-side-scroll">
-        <ul class="layui-nav layui-nav-tree" lay-filter="test" th:each="menu : ${menus}">
-            <li class="layui-nav-item">
-                <a th:href="${menu.url}">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item" th:each="menu : ${menus}">
+                <a href="javascript:void(0);"
+                   th:onclick="'loadPage(\'' + ${menu.url} + '\',\'' + ${menu.icon} + '\',\'' + ${menu.name} + '\')'">
                     <i th:class="${menu.icon}"></i>&nbsp;
                     <span th:text="${menu.name}"></span>
                 </a>

@@ -53,3 +53,9 @@
 .layui-content-container {
     padding: 5px 15px;
 }
+
+.chart-panel {
+    background: #e8e8e8;
+    width: 100%;
+    height: 100%;
+}

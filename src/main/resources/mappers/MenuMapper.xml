@@ -22,5 +22,6 @@
         <include refid="columns"/>
         FROM
         tb_menu_info
+        ORDER BY sort ASC
     </select>
 </mapper>
