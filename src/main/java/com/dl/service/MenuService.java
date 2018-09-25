@@ -1,5 +1,7 @@
 package com.dl.service;
 
+import com.dl.entity.MenuEntity;
+
 import java.util.List;
 
 /**
@@ -10,5 +12,10 @@ import java.util.List;
 
 public interface MenuService {
 
-    List searchMenu();
+    /**
+     * 获取菜单列表
+     *
+     * @return  返回菜单列表信息
+     */
+    List<MenuEntity> searchMenuList();
 }

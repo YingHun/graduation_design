@@ -1,9 +1,6 @@
 package com.dl.entity;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.Date;
 
 /**
  * @author Li Lun
@@ -11,14 +8,8 @@ import java.util.Date;
  * @description 用户基本资料
  */
 
-@Slf4j
 @Data
-public class UserEntity {
-
-    /**
-     * 编号
-     */
-    private Integer id;
+public class UserEntity extends BaseEntity {
 
     /**
      * 账号
@@ -61,17 +52,12 @@ public class UserEntity {
     private String address;
 
     /**
+     * 邮政编码
+     */
+    private String postcode;
+
+    /**
      * 密码
      */
     private String password;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 }

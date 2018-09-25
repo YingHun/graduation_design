@@ -1,5 +1,6 @@
 package com.dl;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  */
 
 @SpringBootApplication(scanBasePackages = "com.dl", exclude = DataSourceAutoConfiguration.class)
+@MapperScan("com.dl.mapper")
 public class BootstrapApplication {
 
     public static void main(String[] args) {

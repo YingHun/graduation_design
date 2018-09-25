@@ -1,10 +1,12 @@
 package com.dl.service.impl;
 
+import com.dl.entity.MenuEntity;
+import com.dl.mapper.MenuMapper;
 import com.dl.service.MenuService;
 import com.dl.util.JsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,13 +19,11 @@ import java.util.List;
 @Service
 public class MenuServiceImpl implements MenuService {
 
+    @Autowired
+    private MenuMapper menuMapper;
+
     @Override
-    public List searchMenu() {
-        try {
-            String json = JsonUtil.getFromJson("mock/menu.json");
-            return JsonUtil.parseJson(json, List.class);
-        } catch (Exception e) {
-            return Collections.EMPTY_LIST;
-        }
+    public List<MenuEntity> searchMenuList() {
+        return menuMapper.selectMenuList();
     }
 }

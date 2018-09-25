@@ -3,6 +3,7 @@ package com.dl.web;
 import com.dl.config.SessionStorageConfig;
 import com.dl.entity.UserEntity;
 import com.dl.service.MenuService;
+import com.dl.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * @author Li Lun
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private MenuService menuService;
 
     @GetMapping({"/", "login"})
@@ -33,9 +37,12 @@ public class IndexController {
 
     @RequestMapping("index")
     public String index(UserEntity userEntity, ModelMap modelMap) {
-        log.info("userEntity: {}", userEntity);
+        UserEntity entity = userService.searchUser(userEntity);
+        if (Objects.isNull(entity)) {
+            return "login";
+        }
 
-        modelMap.put("menus", menuService.searchMenu());
+        modelMap.put("menus", menuService.searchMenuList());
         return "index";
     }
 

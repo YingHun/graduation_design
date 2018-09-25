@@ -23,16 +23,23 @@ spring:
   jackson:
     default-property-inclusion: non_null
     deserialization.fail_on_unknown_properties: false
-
-mybatis:
-  type-aliases-package: com.dl.entity
-  mapper-locations: classpath:/mappers/*.xml
+  # configuration database
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.16.30.55:3306/graduation_design?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
 
 # configuration server
 server:
   port: 8080
   servlet:
     context-path: /lilun
+
+# configuration mybatis
+mybatis:
+  type-aliases-package: com.dl.entity
+  config-location: classpath:mappers/**/*.xml
 
 ---
 spring:
