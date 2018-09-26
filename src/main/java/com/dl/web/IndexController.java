@@ -1,5 +1,6 @@
 package com.dl.web;
 
+import com.dl.config.SessionStorageConfig;
 import com.dl.entity.UserEntity;
 import com.dl.model.UserModel;
 import com.dl.service.MenuService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 /**
@@ -30,13 +33,13 @@ public class IndexController {
     @Autowired
     private MenuService menuService;
 
-    @GetMapping({"/", "login"})
+    @GetMapping("login")
     public String login() {
         return "login";
     }
 
     @RequestMapping("index")
-    public String index(UserEntity userEntity, ModelMap modelMap) {
+    public String index(HttpServletRequest request, UserEntity userEntity, ModelMap modelMap) {
         if (StringUtils.isEmpty(userEntity.getAccount())) {
             modelMap.put("message", "账号不能为空！");
             return "login";
@@ -56,12 +59,17 @@ public class IndexController {
             return "login";
         }
 
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("sessionData", entity);
+
         modelMap.put("menus", menuService.searchMenuList());
         return "index";
     }
 
     @PostMapping("logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
+        HttpSession httpSession = request.getSession();
+        httpSession.removeAttribute("sessionData");
         return "redirect:/login?logout";
     }
 }

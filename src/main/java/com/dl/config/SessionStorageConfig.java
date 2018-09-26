@@ -14,25 +14,38 @@ import java.util.Objects;
  */
 
 @Slf4j
-public final class SessionStorageConfig {
+public class SessionStorageConfig {
+
+    public static final String KEY = "user";
 
     private static HttpSession httpSession;
 
-    public static void storeSession(HttpServletRequest request, UserEntity userEntity) {
+    private SessionStorageConfig() {
+        // do nothing
+    }
+
+    public static SessionStorageConfig newInstance() {
+        return SingletonHandler.instance;
+    }
+
+    private static class SingletonHandler {
+        private static SessionStorageConfig instance = new SessionStorageConfig();
+    }
+
+    public void storeSession(HttpServletRequest request, UserEntity userEntity) {
         if (checkSession(userEntity)) {
             httpSession = request.getSession();
         }
 
-        httpSession.setAttribute(userEntity.getId().toString(), userEntity);
+        httpSession.setAttribute(KEY, userEntity);
     }
 
-    public static void clearSession(UserEntity userEntity) {
-        String userId = userEntity.getId().toString();
-        if (checkSession(userEntity)) {
-            return;
-        }
+    public Object getAttribute() {
+        return httpSession.getAttribute(KEY);
+    }
 
-        httpSession.removeAttribute(userId);
+    public void clearSession() {
+        httpSession.removeAttribute(KEY);
     }
 
     private static boolean checkSession(UserEntity userEntity) {
