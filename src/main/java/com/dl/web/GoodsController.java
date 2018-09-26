@@ -1,8 +1,10 @@
 package com.dl.web;
 
 import com.dl.entity.CategoryEntity;
+import com.dl.entity.InvoicingEntity;
 import com.dl.entity.StockEntity;
 import com.dl.model.BaseModel;
+import com.dl.model.InvoicingModel;
 import com.dl.model.StockModel;
 import com.dl.service.GoodsService;
 import com.dl.util.PageUtil;
@@ -42,17 +44,17 @@ public class GoodsController {
     @RequestMapping("category/list")
     @ResponseBody
     public String categoryList(Integer page, Integer limit) {
-        BaseModel baseModel = new BaseModel();
-        baseModel.setStart(PageUtil.getStart(page, limit));
-        baseModel.setLimit(limit);
+        BaseModel model = new BaseModel();
+        model.setStart(PageUtil.getStart(page, limit));
+        model.setLimit(limit);
 
-        List<CategoryEntity> resultList = goodsService.searchCategoryList(baseModel);
+        List<CategoryEntity> resultList = goodsService.searchCategoryList(model);
         if (CollectionUtils.isEmpty(resultList)) {
             resultList = Collections.EMPTY_LIST;
         }
 
         Map<String, Object> resultMap = new HashMap<>(2);
-        resultMap.put("count", goodsService.searchCategoryCount(baseModel));
+        resultMap.put("count", goodsService.searchCategoryCount(model));
         resultMap.put("data", resultList);
 
         return ResponseResult.success(resultMap);
@@ -89,8 +91,21 @@ public class GoodsController {
 
     @RequestMapping("invoicing/list")
     @ResponseBody
-    public String invoicingList() {
-        return "goods/invoicing_list";
+    public String invoicingList(Integer page, Integer limit) {
+        InvoicingModel model = new InvoicingModel();
+        model.setStart(PageUtil.getStart(page, limit));
+        model.setLimit(limit);
+
+        List<InvoicingEntity> resultList = goodsService.searchInvoicingList(model);
+        if (CollectionUtils.isEmpty(resultList)) {
+            resultList = Collections.EMPTY_LIST;
+        }
+
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("count", goodsService.searchInvoicingCount(model));
+        resultMap.put("data", resultList);
+
+        return ResponseResult.success(resultMap);
     }
 
     @GetMapping("report")

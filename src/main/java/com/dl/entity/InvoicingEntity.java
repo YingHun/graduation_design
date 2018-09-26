@@ -5,26 +5,26 @@ import lombok.Data;
 /**
  * @author Li Lun
  * @date 2018/9/25 10:32
- * @description 商品进出货明细表
+ * @description 商品进销信息
  */
 
 @Data
-public class CommodityEntity extends BaseEntity {
+public class InvoicingEntity extends BaseEntity {
 
     /**
      * 商品类别
      */
-    private String code;
+    private String category;
 
     /**
-     * 商品名称
+     * 商品编码
      */
-    private String name;
+    private String code;
 
     /**
      * 进出货联系人
      */
-    private String supplyContact;
+    private String contact;
 
     /**
      * 联系电话
@@ -57,12 +57,12 @@ public class CommodityEntity extends BaseEntity {
     private Double discountedPrice;
 
     /**
-     * 进货总价
+     * 总价
      */
     private Double totalPrice;
 
     /**
-     * 状态：in-进货、out-出货
+     * 状态：0-进货、1-出货
      */
     private String type;
 }

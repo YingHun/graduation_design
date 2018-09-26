@@ -1,8 +1,10 @@
 package com.dl.service;
 
 import com.dl.entity.CategoryEntity;
+import com.dl.entity.InvoicingEntity;
 import com.dl.entity.StockEntity;
 import com.dl.model.BaseModel;
+import com.dl.model.InvoicingModel;
 import com.dl.model.StockModel;
 
 import java.util.List;
@@ -46,4 +48,21 @@ public interface GoodsService {
      * @return 返回总记录数
      */
     Integer searchCategoryCount(BaseModel model);
+
+
+    /**
+     * 查询进销货信息
+     *
+     * @param model 筛选条件
+     * @return 返回分类信息
+     */
+    List<InvoicingEntity> searchInvoicingList(InvoicingModel model);
+
+    /**
+     * 查询数据总量
+     *
+     * @param model 筛选条件
+     * @return 返回总记录数
+     */
+    Integer searchInvoicingCount(InvoicingModel model);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dl.mapper.StockMapper">
+<mapper namespace="com.dl.mapper.GoodsMapper">
 
     <!--商品库存结果集-->
     <resultMap id="stockMap" type="com.dl.entity.StockEntity">
@@ -22,6 +22,25 @@
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--商品进销信息结果集-->
+    <resultMap id="invoicingMap" type="com.dl.entity.InvoicingEntity">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="category" property="category" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="contact" property="contact" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="quantity" property="quantity" jdbcType="INTEGER"/>
+        <result column="unit_price" property="unitPrice" jdbcType="DECIMAL"/>
+        <result column="discount" property="discount" jdbcType="DECIMAL"/>
+        <result column="discounted_price" property="discountedPrice" jdbcType="DECIMAL"/>
+        <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -97,10 +116,76 @@
         LIMIT #{start}, #{limit}
     </select>
 
+    <!--查询分类信息记录数-->
     <select id="selectCategoryCount" parameterType="com.dl.model.BaseModel" resultType="java.lang.Integer">
         SELECT
         COUNT(1)
         FROM
         tb_category_info
+    </select>
+
+
+    <!--查询分类信息-->
+    <select id="selectInvoicingList" parameterType="com.dl.model.InvoicingModel" resultMap="invoicingMap">
+        SELECT
+        t.id AS "id",
+        s.name AS "category",
+        r.name AS "code",
+        t.contact AS "contact",
+        t.telephone AS "telephone",
+        t.address AS "address",
+        t.quantity AS "quantity",
+        t.unit_price AS "unit_price",
+        t.discount AS "discount",
+        t.discounted_price AS "discounted_price",
+        t.total_price AS "total_price",
+        CASE t.type
+        WHEN 'in' THEN "进货"
+        WHEN 'out' THEN "出货"
+        ELSE "未知"
+        END "type",
+        CASE t.status
+        WHEN '0' THEN "已完成"
+        WHEN '1' THEN "未完成"
+        ELSE "未知状态"
+        END "status",
+        t.create_time AS "create_time",
+        t.update_time AS "update_time"
+        FROM
+        tb_invoicing_info t, tb_category_info s, tb_stock_info r
+        WHERE
+        t.category = s.code
+        AND t.code = r.code
+        <trim prefix="AND" prefixOverrides="AND">
+            <if test="category != '' and category != null">
+                t.category = #{category, jdbcType=VARCHAR}
+            </if>
+            <if test="code != '' and code != null">
+                t.code = #{code, jdbcType=VARCHAR}
+            </if>
+            <if test="type != '' and type != null">
+                t.type = #{type, jdbcType=VARCHAR}
+            </if>
+        </trim>
+        ORDER BY code ASC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="selectInvoicingCount" parameterType="com.dl.model.InvoicingModel" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        tb_invoicing_info
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="category != '' and category != null">
+                AND t.category = #{category, jdbcType=VARCHAR}
+            </if>
+            <if test="code != '' and code != null">
+                AND t.code = #{code, jdbcType=VARCHAR}
+            </if>
+            <if test="type != '' and type != null">
+                AND t.type = #{type, jdbcType=VARCHAR}
+            </if>
+        </trim>
     </select>
 </mapper>
