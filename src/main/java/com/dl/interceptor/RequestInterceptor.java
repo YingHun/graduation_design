@@ -1,6 +1,5 @@
 package com.dl.interceptor;
 
-import com.dl.config.SessionStorageConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
