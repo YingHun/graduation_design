@@ -34,13 +34,18 @@ public final class JsonUtil {
     }
 
     public static <T> T parseJson(String json, Class<T> clazz) {
-        T t;
         try {
-            t = objectMapper.readValue(json, clazz);
+            return objectMapper.readValue(json, clazz);
         } catch (Exception e) {
             throw new RuntimeException("parse json to " + clazz.getSimpleName() + " failed!");
         }
+    }
 
-        return t;
+    public static String stringify(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (Exception e) {
+            throw new RuntimeException("stringify json failed!");
+        }
     }
 }

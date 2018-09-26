@@ -1,21 +1,19 @@
-package com.dl.mapper;
+package com.dl.service;
 
 import com.dl.entity.CategoryEntity;
 import com.dl.entity.StockEntity;
 import com.dl.model.BaseModel;
 import com.dl.model.StockModel;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
  * @author Li Lun
- * @date 2018/9/25 15:27
- * @description 库存信息增删查改
+ * @date 2018/9/26 10:07
+ * @description 商品库存和进销货信息
  */
 
-@Mapper
-public interface StockMapper {
+public interface GoodsService {
 
     /**
      * 查询商品库存信息
@@ -23,7 +21,7 @@ public interface StockMapper {
      * @param model 筛选条件
      * @return 返回商品库存信息
      */
-    List<StockEntity> selectGoodsStock(StockModel model);
+    List<StockEntity> searchStockList(StockModel model);
 
     /**
      * 查询数据总量
@@ -31,7 +29,7 @@ public interface StockMapper {
      * @param model 筛选条件
      * @return 返回总记录数
      */
-    Integer selectStockCount(StockModel model);
+    Integer searchStockCount(StockModel model);
 
     /**
      * 查询分类信息
@@ -39,7 +37,7 @@ public interface StockMapper {
      * @param model 筛选条件
      * @return 返回分类信息
      */
-    List<CategoryEntity> selectCategoryList(BaseModel model);
+    List<CategoryEntity> searchCategoryList(BaseModel model);
 
     /**
      * 查询数据总量
@@ -47,5 +45,5 @@ public interface StockMapper {
      * @param model 筛选条件
      * @return 返回总记录数
      */
-    Integer selectCategoryCount(BaseModel model);
+    Integer searchCategoryCount(BaseModel model);
 }

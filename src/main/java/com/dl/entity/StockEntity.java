@@ -34,7 +34,7 @@ public class StockEntity extends BaseEntity {
     /**
      * 已销数量
      */
-    private Integer sold;
+    private Integer soldQuantity;
 
     /**
      * 商品单价

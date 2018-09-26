@@ -27,11 +27,6 @@ public class MenuEntity extends BaseEntity {
     private String url;
 
     /**
-     * 状态：0-有效、1-无效
-     */
-    private Integer status;
-
-    /**
      * 菜单排序
      */
     private Integer sort;

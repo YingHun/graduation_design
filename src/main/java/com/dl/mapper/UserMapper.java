@@ -1,7 +1,11 @@
 package com.dl.mapper;
 
 import com.dl.entity.UserEntity;
+import com.dl.model.BaseModel;
+import com.dl.model.UserModel;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author Li Lun
@@ -15,8 +19,24 @@ public interface UserMapper {
     /**
      * 查询用户信息
      *
-     * @param entity 查询条件
+     * @param model 筛选条件
      * @return 返回用户信息
      */
-    UserEntity selectUserInfo(UserEntity entity);
+    UserEntity selectUserInfo(UserModel model);
+
+    /**
+     * 查询用户列表
+     *
+     * @param model 筛选条件
+     * @return 返回用户列表信息
+     */
+    List<UserEntity> selectUserList(UserModel model);
+
+    /**
+     * 查询用户列表
+     *
+     * @param model 筛选条件
+     * @return 返回用户列表信息
+     */
+    Integer selectUserCount(UserModel model);
 }

@@ -19,6 +19,11 @@ public class BaseEntity {
     private Integer id;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 创建时间
      */
     private Date createTime;

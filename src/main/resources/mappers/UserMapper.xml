@@ -3,9 +3,10 @@
 <mapper namespace="com.dl.mapper.UserMapper">
 
     <sql id="columns">
-        id, account, username, gender, birthday, telephone, email, address, postcode, password, header, create_time, update_time
+        id, account, username, gender, birthday, telephone, email, address, postcode, header, create_time, update_time
     </sql>
 
+    <!--用户信息结果集-->
     <resultMap id="userMap" type="com.dl.entity.UserEntity">
         <result column="id" property="id" jdbcType="INTEGER"/>
         <result column="account" property="account" jdbcType="VARCHAR"/>
@@ -22,7 +23,8 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <select id="selectUserInfo" parameterType="com.dl.entity.UserEntity" resultMap="userMap">
+    <!--根据指定字段查询用户信息-->
+    <select id="selectUserInfo" parameterType="com.dl.model.UserModel" resultMap="userMap">
         SELECT
         <include refid="columns"/>
         FROM
@@ -35,5 +37,69 @@
                 AND password = #{password, jdbcType=VARCHAR}
             </if>
         </trim>
+    </select>
+
+    <!--查询用户信息列表-->
+    <select id="selectUserList" parameterType="com.dl.model.UserModel" resultMap="userMap">
+        SELECT
+        id AS "id",
+        account AS "account",
+        username AS "username",
+        CASE gender
+        WHEN '0' THEN "女"
+        WHEN '1' THEN "男"
+        ELSE "未知"
+        END "gender",
+        birthday AS "birthday",
+        telephone AS "telephone",
+        email AS "email",
+        address AS "address",
+        CASE status
+        WHEN '0' THEN "有效"
+        WHEN '1' THEN "无效"
+        ELSE "未知状态"
+        END "status",
+        create_time AS "create_time",
+        update_time AS "update_time"
+        FROM
+        tb_user_info
+        WHERE
+        status = '0'
+        <trim prefix="AND" prefixOverrides="AND">
+            <if test="account != null and account != ''">
+                AND account = #{account, jdbcType=VARCHAR}
+            </if>
+            <if test="username != null and username != ''">
+                AND username = #{username, jdbcType=VARCHAR}
+            </if>
+            <if test="password != null and password != ''">
+                AND password = #{password, jdbcType=VARCHAR}
+            </if>
+        </trim>
+        ORDER BY account ASC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <!--查询用户信息记录数-->
+    <select id="selectUserCount" parameterType="com.dl.model.UserModel" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        tb_user_info
+        WHERE
+        status = '0'
+        <trim prefix="AND" prefixOverrides="AND">
+            <if test="account != null and account != ''">
+                AND account = #{account, jdbcType=VARCHAR}
+            </if>
+            <if test="username != null and username != ''">
+                AND username = #{username, jdbcType=VARCHAR}
+            </if>
+            <if test="password != null and password != ''">
+                AND password = #{password, jdbcType=VARCHAR}
+            </if>
+        </trim>
+        ORDER BY account ASC
+        LIMIT #{start}, #{limit}
     </select>
 </mapper>

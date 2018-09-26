@@ -1,6 +1,9 @@
 package com.dl.service;
 
 import com.dl.entity.UserEntity;
+import com.dl.model.UserModel;
+
+import java.util.List;
 
 /**
  * @author Li Lun
@@ -13,8 +16,24 @@ public interface UserService {
     /**
      * 获取用户基本信息
      *
-     * @param entity 查询条件
+     * @param model 查询条件
      * @return 返回用户基本信息
      */
-    UserEntity searchUser(UserEntity entity);
+    UserEntity searchUser(UserModel model);
+
+    /**
+     * 查询用户列表
+     *
+     * @param model 筛选条件
+     * @return 返回用户列表信息
+     */
+    List<UserEntity> searchUserList(UserModel model);
+
+    /**
+     * 查询用户列表
+     *
+     * @param model 筛选条件
+     * @return 返回用户列表信息
+     */
+    Integer searchUserCount(UserModel model);
 }

@@ -20,9 +20,4 @@ public class CategoryEntity extends BaseEntity {
      * 商品类别名称
      */
     private String name;
-
-    /**
-     * 状态：active-有效、inactive-无效
-     */
-    private String status;
 }

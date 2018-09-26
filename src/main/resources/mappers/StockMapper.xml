@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dl.mapper.StockMapper">
+
+    <!--商品库存结果集-->
+    <resultMap id="stockMap" type="com.dl.entity.StockEntity">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="category" property="category" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="stock" property="stock" jdbcType="INTEGER"/>
+        <result column="sold_quantity" property="soldQuantity" jdbcType="INTEGER"/>
+        <result column="unit_price" property="unitPrice" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--商品分类信息结果集-->
+    <resultMap id="categoryMap" type="com.dl.entity.CategoryEntity">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询库存信息-->
+    <select id="selectGoodsStock" parameterType="com.dl.model.StockModel" resultMap="stockMap">
+        SELECT
+        t.id AS "id",
+        s.name AS "category",
+        t.code AS "code",
+        t.name AS "name",
+        t.stock AS "stock",
+        t.sold_quantity AS "sold_quantity",
+        t.unit_price AS "unit_price",
+        CASE t.status
+        WHEN '0' THEN "已上架"
+        WHEN '1' THEN "已下架"
+        ELSE "未知状态"
+        END "status",
+        t.create_time AS "create_time",
+        t.update_time AS "update_time"
+        FROM
+        tb_stock_info t, tb_category_info s
+        WHERE
+        t.category = s.code
+        AND t.status = 0
+        <trim prefix="AND" prefixOverrides="AND">
+            <if test="category != '' and category != null">
+                t.category = #{category, jdbcType=VARCHAR}
+            </if>
+            <if test="name != '' and name != null">
+                t.name = #{name, jdbcType=VARCHAR}
+            </if>
+        </trim>
+        ORDER BY t.category ASC, t.code ASC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <!--查询库存总记录数-->
+    <select id="selectStockCount" parameterType="com.dl.model.StockModel" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        tb_stock_info
+        WHERE
+        status = 0
+        <trim prefix="AND" prefixOverrides="AND">
+            <if test="category != '' and category != null">
+                t.category = #{category, jdbcType=VARCHAR}
+            </if>
+            <if test="name != '' and name != null">
+                t.name = #{name, jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </select>
+
+    <!--查询分类信息-->
+    <select id="selectCategoryList" parameterType="com.dl.model.BaseModel" resultMap="categoryMap">
+        SELECT
+        id AS "id",
+        code AS "code",
+        name AS "name",
+        CASE status
+          WHEN '0' THEN "有效"
+          WHEN '1' THEN "无效"
+        ELSE "未知状态"
+        END "status",
+        create_time AS "create_time",
+        update_time AS "update_time"
+        FROM
+        tb_category_info
+        ORDER BY code ASC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="selectCategoryCount" parameterType="com.dl.model.BaseModel" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        tb_category_info
+    </select>
+</mapper>

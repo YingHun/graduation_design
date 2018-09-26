@@ -54,8 +54,18 @@
     padding: 5px 15px;
 }
 
-.chart-panel {
-    background: #e8e8e8;
-    width: 100%;
-    height: 100%;
+.layui-operation {
+    cursor: pointer;
+}
+
+.layui-detail:hover {
+    color: #41af2f;
+}
+
+.layui-edit:hover {
+    color: #288eda;
+}
+
+.layui-del:hover {
+    color: #e2491f;
 }

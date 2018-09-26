@@ -1,7 +1,7 @@
 package com.dl.web;
 
-import com.dl.config.SessionStorageConfig;
 import com.dl.entity.UserEntity;
+import com.dl.model.UserModel;
 import com.dl.service.MenuService;
 import com.dl.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -48,7 +47,11 @@ public class IndexController {
             return "login";
         }
 
-        UserEntity entity = userService.searchUser(userEntity);
+        UserModel model = new UserModel();
+        model.setAccount(userEntity.getAccount());
+        model.setPassword(userEntity.getPassword());
+
+        UserEntity entity = userService.searchUser(model);
         if (Objects.isNull(entity)) {
             return "login";
         }
