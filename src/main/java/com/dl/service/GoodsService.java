@@ -65,4 +65,49 @@ public interface GoodsService {
      * @return 返回总记录数
      */
     Integer searchInvoicingCount(InvoicingModel model);
+
+    /**
+     * 查询所有分类信息
+     *
+     * @return 返回分类信息列表
+     */
+    List<CategoryEntity> searchCategories();
+
+    /**
+     * 根据分类标识查询商品信息
+     *
+     * @param model 筛选条件
+     * @return 返回商品信息
+     */
+    List<StockEntity> searchGoodsByCategory(StockModel model);
+
+    /**
+     * 根据商品编码获取商品信息
+     *
+     * @param model 筛选条件
+     * @return 返回商品信息
+     */
+    StockEntity searchGoodsByCode(StockModel model);
+
+    /**
+     * 根据商品分类下最大商品编码
+     *
+     * @param model 筛选条件
+     * @return 返回最大商品编码
+     */
+    String searchMaxGoodsCode(StockModel model);
+
+    /**
+     * 添加商品信息
+     *
+     * @param entity 商品信息
+     */
+    void appendGoods(StockEntity entity);
+
+    /**
+     * 更新商品信息
+     *
+     * @param entity 商品信息
+     */
+    void modifyGoods(StockEntity entity);
 }

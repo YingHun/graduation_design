@@ -1,5 +1,6 @@
 package com.dl.web;
 
+import com.dl.common.ProductTypeEnum;
 import com.dl.entity.CategoryEntity;
 import com.dl.entity.InvoicingEntity;
 import com.dl.entity.StockEntity;
@@ -84,17 +85,38 @@ public class GoodsController {
         return ResponseResult.success(resultMap);
     }
 
-    @RequestMapping("invoicing")
-    public String invoicing() {
-        return "goods/invoicing_list";
+    @RequestMapping("inbound")
+    public String inbound() {
+        return "goods/inbound_list";
     }
 
-    @RequestMapping("invoicing/list")
+    @RequestMapping("inbound/list")
     @ResponseBody
-    public String invoicingList(Integer page, Integer limit) {
+    public String inboundList(Integer page, Integer limit) {
+        return invoicing(page, limit, ProductTypeEnum.IN.getType());
+    }
+
+    @RequestMapping("outbound")
+    public String outbound() {
+        return "goods/outbound_list";
+    }
+
+    @RequestMapping("outbound/list")
+    @ResponseBody
+    public String outboundList(Integer page, Integer limit) {
+        return invoicing(page, limit, ProductTypeEnum.OUT.getType());
+    }
+
+    @GetMapping("report")
+    public String report() {
+        return "goods/goods_report";
+    }
+
+    private String invoicing(Integer page, Integer limit, String type) {
         InvoicingModel model = new InvoicingModel();
         model.setStart(PageUtil.getStart(page, limit));
         model.setLimit(limit);
+        model.setType(type);
 
         List<InvoicingEntity> resultList = goodsService.searchInvoicingList(model);
         if (CollectionUtils.isEmpty(resultList)) {
@@ -106,10 +128,5 @@ public class GoodsController {
         resultMap.put("data", resultList);
 
         return ResponseResult.success(resultMap);
-    }
-
-    @GetMapping("report")
-    public String report() {
-        return "goods/goods_report";
     }
 }

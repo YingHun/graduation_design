@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dl.mapper.GoodsMapper">
 
+    <!--商品信息查询字段-->
+    <sql id="stockColumns">
+        id, category, code, name, stock, sold_quantity, unit_price, status, create_time, update_time
+    </sql>
+
     <!--商品库存结果集-->
     <resultMap id="stockMap" type="com.dl.entity.StockEntity">
         <result column="id" property="id" jdbcType="INTEGER"/>
@@ -124,8 +129,7 @@
         tb_category_info
     </select>
 
-
-    <!--查询分类信息-->
+    <!--查询进销货信息-->
     <select id="selectInvoicingList" parameterType="com.dl.model.InvoicingModel" resultMap="invoicingMap">
         SELECT
         t.id AS "id",
@@ -167,10 +171,11 @@
                 t.type = #{type, jdbcType=VARCHAR}
             </if>
         </trim>
-        ORDER BY code ASC
+        ORDER BY t.id ASC
         LIMIT #{start}, #{limit}
     </select>
 
+    <!--查询进销货记录数-->
     <select id="selectInvoicingCount" parameterType="com.dl.model.InvoicingModel" resultType="java.lang.Integer">
         SELECT
         COUNT(1)
@@ -178,14 +183,92 @@
         tb_invoicing_info
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="category != '' and category != null">
-                AND t.category = #{category, jdbcType=VARCHAR}
+                AND category = #{category, jdbcType=VARCHAR}
             </if>
             <if test="code != '' and code != null">
-                AND t.code = #{code, jdbcType=VARCHAR}
+                AND code = #{code, jdbcType=VARCHAR}
             </if>
             <if test="type != '' and type != null">
-                AND t.type = #{type, jdbcType=VARCHAR}
+                AND type = #{type, jdbcType=VARCHAR}
             </if>
         </trim>
     </select>
+
+    <!--查询分类信息-->
+    <select id="selectCategories" resultMap="categoryMap">
+        SELECT code, name FROM tb_category_info
+    </select>
+
+    <!--查询商品信息-->
+    <select id="selectGoodsByCategory" parameterType="com.dl.model.StockModel" resultMap="stockMap">
+        SELECT code, name FROM tb_stock_info WHERE category = #{category, jdbcType=VARCHAR}
+    </select>
+
+    <!--根据商品编码查询商品信息-->
+    <select id="selectGoodsByCode" parameterType="com.dl.model.StockModel" resultMap="stockMap">
+        SELECT
+        <include refid="stockColumns"/>
+        FROM
+        tb_stock_info
+        WHERE
+        code = #{code, jdbcType=VARCHAR}
+    </select>
+
+    <!--获取商品分类下的最大商品编码-->
+    <select id="selectMaxGoodsCode" parameterType="com.dl.model.StockModel" resultType="java.lang.String">
+        SELECT MAX(code) FROM tb_stock_info WHERE category = #{category, jdbcType=VARCHAR}
+    </select>
+
+    <!--更新商品信息-->
+    <update id="updateGoods" parameterType="com.dl.entity.StockEntity">
+        UPDATE tb_stock_info
+        <trim prefix="SET" suffix="," suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name, jdbcType=VARCHAR}
+            </if>
+            <if test="stock != ''">
+                stock = #{stock, jdbcType=INTEGER}
+            </if>
+            <if test="soldQuantity != ''">
+                sold_quantity = #{soldQuantity, jdbcType=INTEGER}
+            </if>
+            <if test="unitPrice != ''">
+                unit_price = #{unitPrice, jdbcType=DECIMAL}
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status, jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name, jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                update_time = now()
+            </if>
+        </trim>
+    </update>
+
+    <!--添加商品-->
+    <insert id="insertGoods" parameterType="com.dl.entity.StockEntity">
+        INSERT INTO tb_stock_info (
+          category,
+          code,
+          name,
+          stock,
+          sold_quantity,
+          unit_price,
+          status,
+          create_time,
+          update_time
+        ) VALUES (
+          #{category, jdbcType=VARCHAR},
+          #{code, jdbcType=VARCHAR},
+          #{name, jdbcType=VARCHAR},
+          #{stock, jdbcType=INTEGER},
+          #{soldQuantity, jdbcType=INTEGER},
+          #{unitPrice, jdbcType=DECIMAL},
+          #{status, jdbcType=VARCHAR},
+          now(),
+          now()
+        )
+    </insert>
 </mapper>

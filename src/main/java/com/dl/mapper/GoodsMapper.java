@@ -66,4 +66,49 @@ public interface GoodsMapper {
      * @return 返回总记录数
      */
     Integer selectInvoicingCount(InvoicingModel model);
+
+    /**
+     * 查询所有分类信息
+     *
+     * @return 返回分类信息列表
+     */
+    List<CategoryEntity> selectCategories();
+
+    /**
+     * 根据分类标识查询商品信息
+     *
+     * @param model 筛选条件
+     * @return 返回商品信息
+     */
+    List<StockEntity> selectGoodsByCategory(StockModel model);
+
+    /**
+     * 根据商品编码获取商品信息
+     *
+     * @param model 筛选条件
+     * @return 返回商品信息
+     */
+    StockEntity selectGoodsByCode(StockModel model);
+
+    /**
+     * 根据商品分类下最大商品编码
+     *
+     * @param model 筛选条件
+     * @return 返回最大商品编码
+     */
+    String selectMaxGoodsCode(StockModel model);
+
+    /**
+     * 添加商品信息
+     *
+     * @param entity 商品信息
+     */
+    void insertGoods(StockEntity entity);
+
+    /**
+     * 更新商品信息
+     *
+     * @param entity 商品信息
+     */
+    void updateGoods(StockEntity entity);
 }

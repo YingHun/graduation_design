@@ -55,4 +55,33 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsMapper.selectInvoicingCount(model);
     }
 
+    @Override
+    public List<CategoryEntity> searchCategories() {
+        return goodsMapper.selectCategories();
+    }
+
+    @Override
+    public List<StockEntity> searchGoodsByCategory(StockModel model) {
+        return goodsMapper.selectGoodsByCategory(model);
+    }
+
+    @Override
+    public StockEntity searchGoodsByCode(StockModel model) {
+        return goodsMapper.selectGoodsByCode(model);
+    }
+
+    @Override
+    public String searchMaxGoodsCode(StockModel model) {
+        return goodsMapper.selectMaxGoodsCode(model);
+    }
+
+    @Override
+    public void appendGoods(StockEntity entity) {
+        goodsMapper.insertGoods(entity);
+    }
+
+    @Override
+    public void modifyGoods(StockEntity entity) {
+        goodsMapper.updateGoods(entity);
+    }
 }

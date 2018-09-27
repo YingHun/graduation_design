@@ -27,7 +27,7 @@ layui.use(['table', 'laypage'], function () {
 function initTable() {
     table.render({
         elem: "#invoicing_detail",
-        url: "http://localhost:8080/lilun/goods/invoicing/list",
+        url: "http://localhost:8080/lilun/goods/inbound/list",
         totalRow: false,
         even: true,
         loading: true,
