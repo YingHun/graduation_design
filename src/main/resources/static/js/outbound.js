@@ -19,7 +19,7 @@ layui.use(['table', 'laypage'], function () {
                 layer.close(index);
             });
         } else if (layEvent === 'edit') {
-            layer.msg('编辑操作');
+            loadDialog("商品出货", "goods/add", null, null, "90%");
         }
     });
 });

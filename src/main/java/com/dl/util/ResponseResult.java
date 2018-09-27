@@ -20,6 +20,17 @@ public final class ResponseResult {
         return ResponseEnum.SUCCESS.toString();
     }
 
+    public static String success(Object object) {
+        try {
+            Map<String, Object> resultMap = objectMapper.readValue(success(), Map.class);
+            resultMap.put("data", object);
+
+            return objectMapper.writeValueAsString(resultMap);
+        } catch (IOException e) {
+            throw new RuntimeException("parse json failed!");
+        }
+    }
+
     public static String success(Map<String, Object> params) {
         try {
             Map<String, Object> resultMap = objectMapper.readValue(success(), Map.class);

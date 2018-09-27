@@ -1,15 +1,20 @@
 package com.dl.web;
 
 import com.dl.common.ProductTypeEnum;
+import com.dl.entity.CategoryEntity;
 import com.dl.entity.InvoicingEntity;
+import com.dl.entity.StockEntity;
 import com.dl.model.InvoicingModel;
+import com.dl.model.StockModel;
 import com.dl.service.GoodsService;
 import com.dl.util.PageUtil;
 import com.dl.util.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,6 +35,25 @@ public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @RequestMapping("add")
+    public String add(ModelMap modelMap) {
+
+        List<CategoryEntity> categoryEntities = goodsService.searchCategories();
+        modelMap.put("categories", categoryEntities);
+        return "goods/goods_invoicing";
+    }
+
+    @RequestMapping("item/{code}")
+    @ResponseBody
+    public String item(@PathVariable String code) {
+        StockModel model = new StockModel();
+        model.setCategory(code);
+
+        List<StockEntity> stockEntity = goodsService.searchGoodsByCategory(model);
+
+        return ResponseResult.success(stockEntity);
+    }
 
     @RequestMapping("inbound")
     public String inbound() {
