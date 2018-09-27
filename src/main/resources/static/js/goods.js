@@ -17,10 +17,11 @@ layui.use('form', function () {
             dataType: "json",
             success: function (data) {
                 $.each(data.data, function (index, value) {
-                    console.log(value + "-------" + value.code);
                     var $option = $("<option></option>").attr("value", value.code).text(value.name);
-                    $("#code").parent().append($option);
+                    $("#code").append($option);
                 });
+
+                form.render();
             },
             error: function () {
                 layer.msg("页面加载失败，请稍后重试", {time: 2000});

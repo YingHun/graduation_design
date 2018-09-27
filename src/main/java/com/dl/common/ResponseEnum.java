@@ -8,13 +8,17 @@ package com.dl.common;
 
 public enum ResponseEnum {
 
-    SUCCESS(0, "Success");
+    SUCCESS(0, "Success"), FAILURE(1000, "Failure");
 
     private Integer code;
     private String msg;
 
     ResponseEnum(Integer code, String msg) {
         this.code = code;
+        this.msg = msg;
+    }
+
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 

@@ -6,13 +6,13 @@ package com.dl.common;
  * @description 商品进销货类型
  */
 
-public enum ProductTypeEnum {
+public enum GoodsTypeEnum {
 
     IN("in"), OUT("out");
 
     private String type;
 
-    ProductTypeEnum(String type) {
+    GoodsTypeEnum(String type) {
         this.type = type;
     }
 

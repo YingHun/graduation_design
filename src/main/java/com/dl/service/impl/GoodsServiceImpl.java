@@ -1,5 +1,6 @@
 package com.dl.service.impl;
 
+import com.dl.common.GoodsTypeEnum;
 import com.dl.entity.CategoryEntity;
 import com.dl.entity.InvoicingEntity;
 import com.dl.entity.StockEntity;
@@ -84,6 +85,11 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void appendGoods(StockEntity entity) {
         goodsMapper.insertGoods(entity);
+    }
+
+    @Override
+    public void appendInvoicing(InvoicingEntity entity) {
+        goodsMapper.insertInvoicing(entity);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.dl.web;
 
-import com.dl.common.ProductTypeEnum;
+import com.dl.common.GoodsTypeEnum;
+import com.dl.common.ResponseEnum;
 import com.dl.entity.CategoryEntity;
 import com.dl.entity.InvoicingEntity;
 import com.dl.entity.StockEntity;
@@ -55,6 +56,26 @@ public class GoodsController {
         return ResponseResult.success(stockEntity);
     }
 
+    @RequestMapping("append")
+    @ResponseBody
+    public String append(InvoicingEntity entity) {
+        StockModel model = new StockModel();
+        model.setCode(entity.getCode());
+
+        if (GoodsTypeEnum.OUT.getType().equals(entity.getType())) {
+            StockEntity stockEntity = goodsService.searchGoodsByCode(model);
+
+            if (entity.getQuantity() > stockEntity.getStock()) {
+                ResponseEnum.FAILURE.setMsg(String.format("剩余库存不足，当前库存%s", stockEntity.getStock()));
+                return ResponseResult.failure();
+            }
+        }
+
+        goodsService.appendInvoicing(entity);
+
+        return ResponseResult.success();
+    }
+
     @RequestMapping("inbound")
     public String inbound() {
         return "goods/inbound_list";
@@ -63,7 +84,7 @@ public class GoodsController {
     @RequestMapping("inbound/list")
     @ResponseBody
     public String inboundList(Integer page, Integer limit) {
-        return invoicing(page, limit, ProductTypeEnum.IN.getType());
+        return invoicing(page, limit, GoodsTypeEnum.IN.getType());
     }
 
     @RequestMapping("outbound")
@@ -74,7 +95,7 @@ public class GoodsController {
     @RequestMapping("outbound/list")
     @ResponseBody
     public String outboundList(Integer page, Integer limit) {
-        return invoicing(page, limit, ProductTypeEnum.OUT.getType());
+        return invoicing(page, limit, GoodsTypeEnum.OUT.getType());
     }
 
     @GetMapping("report")

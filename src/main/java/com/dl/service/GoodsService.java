@@ -106,6 +106,13 @@ public interface GoodsService {
     void appendGoods(StockEntity entity);
 
     /**
+     * 添加进销货明细
+     *
+     * @param entity 进销货信息
+     */
+    void appendInvoicing(InvoicingEntity entity);
+
+    /**
      * 更新商品信息
      *
      * @param entity 商品信息

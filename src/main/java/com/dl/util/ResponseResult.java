@@ -41,4 +41,19 @@ public final class ResponseResult {
             throw new RuntimeException("parse json failed!");
         }
     }
+
+    public static String failure() {
+        return ResponseEnum.FAILURE.toString();
+    }
+
+    public static String failure(Object object) {
+        try {
+            Map<String, Object> resultMap = objectMapper.readValue(failure(), Map.class);
+            resultMap.put("description", object);
+
+            return objectMapper.writeValueAsString(resultMap);
+        } catch (IOException e) {
+            throw new RuntimeException("parse json failed!");
+        }
+    }
 }

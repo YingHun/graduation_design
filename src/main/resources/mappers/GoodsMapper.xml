@@ -272,6 +272,38 @@
         )
     </insert>
 
+    <!--添加进销货信息-->
+    <insert id="insertInvoicing" parameterType="com.dl.entity.InvoicingEntity">
+        INSERT INTO tb_stock_info (
+          category,
+          code,
+          contact,
+          telephone,
+          address,
+          quantity,
+          unit_price,
+          discount,
+          discounted_price,
+          total_price,
+          `type`,
+          create_time,
+          update_time
+        ) VALUES (
+          #{category, jdbcType=VARCHAR},
+          #{code, jdbcType=VARCHAR},
+          #{contact, jdbcType=VARCHAR},
+          #{telephone, jdbcType=VARCHAR},
+          #{address, jdbcType=VARCHAR},
+          #{quantity, jdbcType=INTEGER},
+          #{unitPrice, jdbcType=DECIMAL},
+          #{discount, jdbcType=DECIMAL},
+          #{discounted_price, jdbcType=DECIMAL},
+          #{type, jdbcType=VARCHAR},
+          now(),
+          now()
+        )
+    </insert>
+
     <!--获取销售数据-->
     <select id="selectSaleReport" resultType="java.util.Map">
         SELECT
