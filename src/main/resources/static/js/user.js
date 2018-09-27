@@ -51,8 +51,7 @@ function initTable() {
                     title: '创建时间',
                     width: 170,
                     templet: '<div>{{layui.util.toDateString(d.createTime, \'yyyy-MM-dd HH:mm:ss\')}}</div>'
-                },
-                {field: 'right', title: '操作', toolbar: "#operation"}
+                }
             ]
         ],
         done: doneCallback,

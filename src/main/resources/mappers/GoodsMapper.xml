@@ -271,4 +271,33 @@
           now()
         )
     </insert>
+
+    <!--获取销售数据-->
+    <select id="selectSaleReport" resultType="java.util.Map">
+        SELECT
+            a.create_date AS create_date,
+            IFNULL( SUM( quantity ), 0 ) quantity,
+            IFNULL( SUM( total_price ), 0 ) money
+        FROM
+            (
+                SELECT
+                    DATE_SUB( curdate( ), INTERVAL 6 DAY ) AS create_date UNION ALL
+                SELECT
+                    DATE_SUB( curdate( ), INTERVAL 5 DAY ) AS create_date UNION ALL
+                SELECT
+                    DATE_SUB( curdate( ), INTERVAL 4 DAY ) AS create_date UNION ALL
+                SELECT
+                    DATE_SUB( curdate( ), INTERVAL 3 DAY ) AS create_date UNION ALL
+                SELECT
+                    DATE_SUB( curdate( ), INTERVAL 2 DAY ) AS create_date UNION ALL
+                SELECT
+                    DATE_SUB( curdate( ), INTERVAL 1 DAY ) AS create_date UNION ALL
+                SELECT
+                    curdate( ) AS create_date
+            ) a
+        LEFT JOIN
+          tb_invoicing_info b ON a.create_date = DATE( b.create_time )
+        GROUP BY
+          a.create_date
+    </select>
 </mapper>

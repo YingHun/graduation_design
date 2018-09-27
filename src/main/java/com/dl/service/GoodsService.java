@@ -8,6 +8,7 @@ import com.dl.model.InvoicingModel;
 import com.dl.model.StockModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Li Lun
@@ -110,4 +111,11 @@ public interface GoodsService {
      * @param entity 商品信息
      */
     void modifyGoods(StockEntity entity);
+
+    /**
+     * 获取销售报表数据
+     *
+     * @return 返回销售报表数据
+     */
+    Map<String, Object> searchSaleReport();
 }

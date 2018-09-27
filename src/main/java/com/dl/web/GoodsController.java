@@ -58,6 +58,12 @@ public class GoodsController {
         return "goods/goods_report";
     }
 
+    @RequestMapping("report/list")
+    @ResponseBody
+    public String reportList() {
+        return ResponseResult.success(goodsService.searchSaleReport());
+    }
+
     private String invoicing(Integer page, Integer limit, String type) {
         InvoicingModel model = new InvoicingModel();
         model.setStart(PageUtil.getStart(page, limit));

@@ -9,6 +9,7 @@ import com.dl.model.StockModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Li Lun
@@ -111,4 +112,11 @@ public interface GoodsMapper {
      * @param entity 商品信息
      */
     void updateGoods(StockEntity entity);
+
+    /**
+     * 获取销售报表数据
+     *
+     * @return 返回销售报表数据
+     */
+    List<Map<String, Object>> selectSaleReport();
 }
