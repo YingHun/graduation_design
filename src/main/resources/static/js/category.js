@@ -27,13 +27,14 @@ layui.use(['table', 'laypage'], function () {
 function initTable() {
     table.render({
         elem: "#category_detail",
-        url: "http://localhost:8080/lilun/goods/category/list",
+        url: "http://localhost:8080/lilun/category/list",
         totalRow: false,
+        toolbar: true,
         even: true,
         loading: true,
         page: true,
-        limit: 14,
-        limits: [10, 14, 15, 20, 30, 40, 50],
+        limit: 10,
+        limits: [10, 15, 20, 30, 40, 50],
         cols: [
             [
                 {field: 'id', title: '序号', width: 40},

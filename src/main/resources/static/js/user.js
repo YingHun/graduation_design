@@ -29,11 +29,12 @@ function initTable() {
         elem: "#user_detail",
         url: "http://localhost:8080/lilun/user/list",
         totalRow: false,
+        toolbar: true,
         even: true,
         loading: true,
         page: true,
-        limit: 14,
-        limits: [10, 14, 15, 20, 30, 40, 50],
+        limit: 10,
+        limits: [10, 20, 30, 40, 50],
         cols: [
             [
                 {field: 'id', title: '序号', width: 60},

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/decorator::meta">
+    <title>Graduation Design</title>
+</head>
+<body>
+<div class="layui-content">
+    <form class="layui-form" th:action="@{/edit}">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">商品类别</label>
+                <div class="layui-input-block">
+                    <select name="category" lay-filter="category">
+                        <option th:each="category : ${categories}" th:if="${category.code == entity.category}" th:value="${category.code}" th:text="${category.name}" selected="selected"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品编码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="code" th:value="${entity.code}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" th:value="${entity.name}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">剩余库存</label>
+            <div class="layui-input-inline">
+                <input type="text" name="stock" th:value="${entity.stock}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">已售数量</label>
+            <div class="layui-input-inline">
+                <input type="text" name="soldQuantity" th:value="${entity.soldQuantity}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品单价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="unitPrice" th:value="${entity.unitPrice}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">商品状态</label>
+                <div class="layui-input-block">
+                    <select name="status" lay-filter="status">
+                        <option th:if="${entity.status} == '0'" value="0" selected="selected">已上架</option>
+                        <option th:if="${entity.status} == '1'" value="1" selected="selected">已下架</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

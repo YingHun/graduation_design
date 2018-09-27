@@ -17,6 +17,11 @@ public class StockModel extends BaseModel {
     private String category;
 
     /**
+     * 商品编码
+     */
+    private String code;
+
+    /**
      * 商品名称
      */
     private String name;

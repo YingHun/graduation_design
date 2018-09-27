@@ -67,3 +67,21 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 }
 
+function loadDialog(title, url, params, width, height) {
+    if (width == null || width == "" || width == undefined) {
+        width = "500px";
+    }
+
+    if (height == null || height == "" || height == undefined) {
+        height = "60%";
+    }
+
+    layer.open({
+        type: 2,
+        title: title,
+        shadeClose: true,
+        shade: 0.8,
+        area: [width, height],
+        content: url
+    });
+}

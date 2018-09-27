@@ -10,7 +10,7 @@ layui.use(['table', 'laypage'], function () {
     initTable();
 
     table.on('tool(test)', function (obj) {
-        var layEvent = obj.event;
+        var data = obj.data, layEvent = obj.event;
         if (layEvent === 'detail') {
             layer.msg('查看操作');
         } else if (layEvent === 'del') {
@@ -19,7 +19,7 @@ layui.use(['table', 'laypage'], function () {
                 layer.close(index);
             });
         } else if (layEvent === 'edit') {
-            layer.msg('编辑操作');
+            loadDialog("编辑商品信息", "stock/edit/" + data.code, null, null, null);
         }
     });
 });
@@ -27,13 +27,14 @@ layui.use(['table', 'laypage'], function () {
 function initTable() {
     table.render({
         elem: "#stock_detail",
-        url: "http://localhost:8080/lilun/goods/stock/list",
+        url: "http://localhost:8080/lilun/stock/list",
         totalRow: false,
+        toolbar: true,
         even: true,
         loading: true,
         page: true,
-        limit: 14,
-        limits: [10, 14, 15, 20, 30, 40, 50],
+        limit: 10,
+        limits: [10, 15, 20, 30, 40, 50],
         cols: [
             [
                 {field: 'id', title: '序号', width: 60},
