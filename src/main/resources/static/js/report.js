@@ -1,6 +1,6 @@
 $(function () {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "goods/report/list",
         async: false,
         contentType: "application/json",

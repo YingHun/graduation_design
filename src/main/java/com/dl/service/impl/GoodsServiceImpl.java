@@ -1,6 +1,7 @@
 package com.dl.service.impl;
 
 import com.dl.common.GoodsTypeEnum;
+import com.dl.common.StockTypeEnum;
 import com.dl.entity.CategoryEntity;
 import com.dl.entity.InvoicingEntity;
 import com.dl.entity.StockEntity;
@@ -12,11 +13,13 @@ import com.dl.service.GoodsService;
 import com.dl.util.MathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Li Lun
@@ -25,6 +28,7 @@ import java.util.Map;
  */
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class GoodsServiceImpl implements GoodsService {
 
     private static final Double TEN_THOUSAND = 10000.00;
@@ -78,18 +82,49 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public String searchMaxGoodsCode(StockModel model) {
-        return goodsMapper.selectMaxGoodsCode(model);
-    }
-
-    @Override
     public void appendGoods(StockEntity entity) {
+        String maxCode = goodsMapper.selectMaxGoodsCode(entity);
+        AtomicLong currentCode = new AtomicLong(Long.parseLong(maxCode));
+
+        // 自动获取商品分类下最大商品编码，然后在此编码上进行自增生成新的商品编码
+        entity.setCode(String.valueOf(currentCode.incrementAndGet()));
+
         goodsMapper.insertGoods(entity);
     }
 
     @Override
     public void appendInvoicing(InvoicingEntity entity) {
-        goodsMapper.insertInvoicing(entity);
+        try {
+            goodsMapper.insertInvoicing(entity);
+
+            StockModel model = new StockModel();
+            model.setCode(entity.getCode());
+            StockEntity stockEntity = goodsMapper.selectGoodsByCode(model);
+
+            // 如果是进货，除了记录进货明细表以外还需要更新库存表剩余库存
+            if (GoodsTypeEnum.IN.getType().equals(entity.getType())) {
+                stockEntity.setStock(stockEntity.getStock() + entity.getQuantity());
+                // 如果库存剩余量为0，则商品状态为已上架状态
+                if (stockEntity.getStock() > 0) {
+                    stockEntity.setStatus(StockTypeEnum.SHELF.getStatus());
+                }
+            }
+
+            // 如果是出货，除了记录出货明细表以外还需要更新库存表剩余库存和已售数量
+            if (GoodsTypeEnum.OUT.getType().equals(entity.getType())) {
+                int stock = stockEntity.getStock() - entity.getQuantity();
+                stockEntity.setStock(stock);
+                stockEntity.setSoldQuantity(stockEntity.getSoldQuantity() + entity.getQuantity());
+                // 如果库存剩余量为0，则商品状态为缺货状态
+                if (stock == 0) {
+                    stockEntity.setStatus(StockTypeEnum.LACK.getStatus());
+                }
+            }
+
+            goodsMapper.updateGoods(stockEntity);
+        } catch (Exception e) {
+            throw new RuntimeException("record goods information error!" + e);
+        }
     }
 
     @Override

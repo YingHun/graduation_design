@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="layui-content">
-    <form class="layui-form" th:action="@{/edit}">
+    <form class="layui-form" lay-filter="stockForm" id="stockForm" method="post">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">商品类别</label>
@@ -19,7 +19,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品编码</label>
             <div class="layui-input-inline">
-                <input type="text" name="code" th:value="${entity.code}" autocomplete="off" class="layui-input">
+                <input type="hidden" name="code" th:value="${entity.code}">
+                <input type="text" th:value="${entity.code}" autocomplete="off" class="layui-input" disabled="disabled">
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,8 +52,9 @@
                 <label class="layui-form-label">商品状态</label>
                 <div class="layui-input-block">
                     <select name="status" lay-filter="status">
-                        <option th:if="${entity.status} == '0'" value="0" selected="selected">已上架</option>
-                        <option th:if="${entity.status} == '1'" value="1" selected="selected">已下架</option>
+                        <option value="0" th:selected="${entity.status} == '0'">已上架</option>
+                        <option value="1" th:selected="${entity.status} == '1'">已下架</option>
+                        <option value="2" th:selected="${entity.status} == '2'">缺货</option>
                     </select>
                 </div>
             </div>
@@ -65,7 +67,7 @@
         </div>
     </form>
     <script type="application/javascript" th:src="@{/layui/layui.all.js}"></script>
-    <script type="application/javascript" th:src="@{/js/goods.js}"></script>
+    <script type="application/javascript" th:src="@{/js/stock.js}"></script>
 </div>
 </body>
 </html>

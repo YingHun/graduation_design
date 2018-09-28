@@ -94,10 +94,10 @@ public interface GoodsMapper {
     /**
      * 根据商品分类下最大商品编码
      *
-     * @param model 筛选条件
+     * @param entity 筛选条件
      * @return 返回最大商品编码
      */
-    String selectMaxGoodsCode(StockModel model);
+    String selectMaxGoodsCode(StockEntity entity);
 
     /**
      * 添加商品信息

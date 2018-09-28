@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="layui-content">
-    <form class="layui-form" th:action="@{/edit}" id="goodsForm">
+    <form class="layui-form" lay-filter="goodsForm" id="goodsForm" method="post">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">商品类别</label>
@@ -22,7 +22,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">商品名称</label>
                 <div class="layui-input-block">
-                    <select name="code" id="code" lay-filter="category">
+                    <select name="code" id="code" lay-filter="code">
                         <option value="">请选择商品名称</option>
                     </select>
                 </div>
@@ -37,7 +37,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系电话</label>
             <div class="layui-input-inline">
-                <input type="text" name="telephone" autocomplete="off" class="layui-input">
+                <input type="text" name="telephone" autocomplete="off" class="layui-input" maxlength="11">
             </div>
         </div>
         <div class="layui-form-item">
@@ -80,10 +80,9 @@
             <div class="layui-inline">
                 <label class="layui-form-label">商品状态</label>
                 <div class="layui-input-block">
-                    <select name="status" lay-filter="status">
-                        <option value="" selected="selected">请选择商品状态</option>
-                        <option value="0">进货</option>
-                        <option value="1">出货</option>
+                    <select name="type" lay-filter="type">
+                        <option th:if="${type} == 'in'" value="in" selected="selected">进货</option>
+                        <option th:if="${type} == 'out'" value="out" selected="selected">出货</option>
                     </select>
                 </div>
             </div>

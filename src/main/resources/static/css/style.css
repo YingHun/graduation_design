@@ -74,3 +74,12 @@
 .layui-del:hover {
     color: #e2491f;
 }
+
+.layui-search-panel {
+    margin: 10px 0px 0px;
+    padding: 20px 0px 0px;
+    box-sizing: border-box;
+    background: #f2f2f2;
+    border: 1px solid #e6e6e6;
+    border-bottom: none;
+}

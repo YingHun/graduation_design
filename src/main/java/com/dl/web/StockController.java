@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,31 +35,35 @@ public class StockController {
     private GoodsService goodsService;
 
     @GetMapping("view")
-    public String view() {
+    public String view(ModelMap modelMap) {
+        List<CategoryEntity> categoryEntities = goodsService.searchCategories();
+        modelMap.put("categories", categoryEntities);
+
         return "stock/list";
     }
 
     @RequestMapping("list")
     @ResponseBody
-    public String list(Integer page, Integer limit) {
-        StockModel stockModel = new StockModel();
-        stockModel.setStart(PageUtil.getStart(page, limit));
-        stockModel.setLimit(limit);
+    public String list(StockModel model) {
+        model.setStart(PageUtil.getStart(model.getPage(), model.getLimit()));
 
-        List<StockEntity> resultList = goodsService.searchStockList(stockModel);
+        List<StockEntity> resultList = goodsService.searchStockList(model);
         if (CollectionUtils.isEmpty(resultList)) {
             resultList = Collections.EMPTY_LIST;
         }
 
         Map<String, Object> resultMap = new HashMap<>(2);
-        resultMap.put("count", goodsService.searchStockCount(stockModel));
+        resultMap.put("count", goodsService.searchStockCount(model));
         resultMap.put("data", resultList);
 
         return ResponseResult.success(resultMap);
     }
 
     @RequestMapping("add")
-    public String add() {
+    public String add(ModelMap modelMap) {
+        List<CategoryEntity> categoryEntities = goodsService.searchCategories();
+        modelMap.put("categories", categoryEntities);
+
         return "stock/add";
     }
 
@@ -73,5 +78,18 @@ public class StockController {
         modelMap.put("categories", categoryEntities);
 
         return "stock/edit";
+    }
+
+    @RequestMapping("append")
+    @ResponseBody
+    public String append(StockEntity entity) {
+        // 如果存在商品编码标识修改商品信息，否则为新增商品信息
+        if (StringUtils.isEmpty(entity.getCode())) {
+            goodsService.appendGoods(entity);
+        } else {
+            goodsService.modifyGoods(entity);
+        }
+
+        return ResponseResult.success();
     }
 }

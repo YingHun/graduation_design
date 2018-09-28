@@ -27,7 +27,7 @@ layui.use(['table', 'laypage'], function () {
 function initTable() {
     table.render({
         elem: "#category_detail",
-        url: "http://localhost:8080/lilun/category/list",
+        url: "category/list",
         totalRow: false,
         toolbar: true,
         even: true,

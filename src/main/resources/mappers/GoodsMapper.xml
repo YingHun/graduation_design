@@ -63,6 +63,7 @@
         CASE t.status
         WHEN '0' THEN "已上架"
         WHEN '1' THEN "已下架"
+        WHEN '2' THEN "缺货"
         ELSE "未知状态"
         END "status",
         t.create_time AS "create_time",
@@ -71,13 +72,15 @@
         tb_stock_info t, tb_category_info s
         WHERE
         t.category = s.code
-        AND t.status = 0
         <trim prefix="AND" prefixOverrides="AND">
             <if test="category != '' and category != null">
-                t.category = #{category, jdbcType=VARCHAR}
+                AND t.category = #{category, jdbcType=VARCHAR}
             </if>
             <if test="name != '' and name != null">
-                t.name = #{name, jdbcType=VARCHAR}
+                AND t.name LIKE CONCAT('%', #{name, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != '' and status != null">
+                AND t.status = #{status, jdbcType=VARCHAR}
             </if>
         </trim>
         ORDER BY t.category ASC, t.code ASC
@@ -90,14 +93,15 @@
         COUNT(1)
         FROM
         tb_stock_info
-        WHERE
-        status = 0
-        <trim prefix="AND" prefixOverrides="AND">
+        <trim prefix="WHERE" prefixOverrides="AND">
             <if test="category != '' and category != null">
-                t.category = #{category, jdbcType=VARCHAR}
+                AND category = #{category, jdbcType=VARCHAR}
             </if>
             <if test="name != '' and name != null">
-                t.name = #{name, jdbcType=VARCHAR}
+                AND name LIKE CONCAT('%', #{name, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != '' and status != null">
+                AND status = #{status, jdbcType=VARCHAR}
             </if>
         </trim>
     </select>
@@ -215,36 +219,33 @@
     </select>
 
     <!--获取商品分类下的最大商品编码-->
-    <select id="selectMaxGoodsCode" parameterType="com.dl.model.StockModel" resultType="java.lang.String">
+    <select id="selectMaxGoodsCode" parameterType="com.dl.entity.StockEntity" resultType="java.lang.String">
         SELECT MAX(code) FROM tb_stock_info WHERE category = #{category, jdbcType=VARCHAR}
     </select>
 
     <!--更新商品信息-->
     <update id="updateGoods" parameterType="com.dl.entity.StockEntity">
         UPDATE tb_stock_info
-        <trim prefix="SET" suffix="," suffixOverrides=",">
+        <trim prefix="SET" suffixOverrides=",">
+            update_time = now(),
             <if test="name != null and name != ''">
-                name = #{name, jdbcType=VARCHAR}
+                name = #{name, jdbcType=VARCHAR},
             </if>
-            <if test="stock != ''">
-                stock = #{stock, jdbcType=INTEGER}
+            <if test="stock != '' || stock == 0">
+                stock = #{stock, jdbcType=INTEGER},
             </if>
-            <if test="soldQuantity != ''">
-                sold_quantity = #{soldQuantity, jdbcType=INTEGER}
+            <if test="soldQuantity != '' || stock == 0">
+                sold_quantity = #{soldQuantity, jdbcType=INTEGER},
             </if>
-            <if test="unitPrice != ''">
-                unit_price = #{unitPrice, jdbcType=DECIMAL}
+            <if test="unitPrice != '' || stock == 0">
+                unit_price = #{unitPrice, jdbcType=DECIMAL},
             </if>
             <if test="status != null and status != ''">
-                status = #{status, jdbcType=VARCHAR}
-            </if>
-            <if test="name != null and name != ''">
-                name = #{name, jdbcType=VARCHAR}
-            </if>
-            <if test="updateTime != null and updateTime != ''">
-                update_time = now()
+                status = #{status, jdbcType=VARCHAR},
             </if>
         </trim>
+        WHERE
+        code = #{code, jdbcType=VARCHAR}
     </update>
 
     <!--添加商品-->
@@ -274,7 +275,7 @@
 
     <!--添加进销货信息-->
     <insert id="insertInvoicing" parameterType="com.dl.entity.InvoicingEntity">
-        INSERT INTO tb_stock_info (
+        INSERT INTO tb_invoicing_info (
           category,
           code,
           contact,
@@ -297,7 +298,8 @@
           #{quantity, jdbcType=INTEGER},
           #{unitPrice, jdbcType=DECIMAL},
           #{discount, jdbcType=DECIMAL},
-          #{discounted_price, jdbcType=DECIMAL},
+          #{discountedPrice, jdbcType=DECIMAL},
+          #{totalPrice, jdbcType=DECIMAL},
           #{type, jdbcType=VARCHAR},
           now(),
           now()

@@ -91,14 +91,6 @@ public interface GoodsService {
     StockEntity searchGoodsByCode(StockModel model);
 
     /**
-     * 根据商品分类下最大商品编码
-     *
-     * @param model 筛选条件
-     * @return 返回最大商品编码
-     */
-    String searchMaxGoodsCode(StockModel model);
-
-    /**
      * 添加商品信息
      *
      * @param entity 商品信息

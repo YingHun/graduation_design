@@ -11,15 +11,13 @@ layui.use(['table', 'laypage'], function () {
 
     table.on('tool(test)', function (obj) {
         var layEvent = obj.event;
-        if (layEvent === 'detail') {
-            layer.msg('查看操作');
-        } else if (layEvent === 'del') {
+        if (layEvent === 'del') {
             layer.confirm('真的删除行么', function (index) {
                 obj.del();
                 layer.close(index);
             });
         } else if (layEvent === 'edit') {
-            loadDialog("商品出货", "goods/add", null, null, "90%");
+            layer.msg('编辑操作');
         }
     });
 });
@@ -27,9 +25,10 @@ layui.use(['table', 'laypage'], function () {
 function initTable() {
     table.render({
         elem: "#invoicing_detail",
-        url: "http://localhost:8080/lilun/goods/outbound/list",
+        url: "goods/outbound/list",
         totalRow: true,
-        toolbar: true,
+        toolbar: '#add',
+        defaultToolbar: ['filter', 'print', 'exports'],
         even: true,
         loading: true,
         page: true,
@@ -82,4 +81,8 @@ function doneCallback(res, curr, count) {
             }
         }
     });
+}
+
+function add() {
+    loadDialog("商品出货", "goods/add/out", null, null, "90%");
 }

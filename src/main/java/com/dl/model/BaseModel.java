@@ -17,6 +17,11 @@ public class BaseModel {
     private Integer start;
 
     /**
+     * 当前页
+     */
+    private Integer page;
+
+    /**
      * 每页记录数
      */
     private Integer limit;

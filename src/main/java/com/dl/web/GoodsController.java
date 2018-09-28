@@ -37,15 +37,16 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @RequestMapping("add")
-    public String add(ModelMap modelMap) {
+    @RequestMapping("add/{type}")
+    public String add(@PathVariable String type, ModelMap modelMap) {
 
         List<CategoryEntity> categoryEntities = goodsService.searchCategories();
         modelMap.put("categories", categoryEntities);
+        modelMap.put("type", type);
         return "goods/goods_invoicing";
     }
 
-    @RequestMapping("item/{code}")
+    @RequestMapping("add/item/{code}")
     @ResponseBody
     public String item(@PathVariable String code) {
         StockModel model = new StockModel();
@@ -56,9 +57,9 @@ public class GoodsController {
         return ResponseResult.success(stockEntity);
     }
 
-    @RequestMapping("append")
+    @RequestMapping("add/record")
     @ResponseBody
-    public String append(InvoicingEntity entity) {
+    public String addRecord(InvoicingEntity entity) {
         StockModel model = new StockModel();
         model.setCode(entity.getCode());
 

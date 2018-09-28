@@ -25,4 +25,9 @@ public class StockModel extends BaseModel {
      * 商品名称
      */
     private String name;
+
+    /**
+     * 商品状态
+     */
+    private String status;
 }

@@ -1,15 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:include="common/decorator::meta">
     <title>Graduation Design</title>
 </head>
 <body>
-<div>
-    <table class="layui-hide" id="stock_detail" lay-filter="test"></table>
-    <script type="text/html" id="operation">
-        <a class="layui-operation layui-edit" lay-event="edit">编辑</a>
-        <a class="layui-operation layui-del" lay-event="del">删除</a>
-    </script>
+<div class="layui-content">
+    <form class="layui-form" lay-filter="stockForm" id="stockForm" method="post">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">商品类别</label>
+                <div class="layui-input-block">
+                    <select name="category" lay-filter="category">
+                        <option value="">请选择商品类别</option>
+                        <option th:each="category : ${categories}" th:value="${category.code}" th:text="${category.name}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">剩余库存</label>
+            <div class="layui-input-inline">
+                <input type="text" name="stock" value="0" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">已售数量</label>
+            <div class="layui-input-inline">
+                <input type="text" name="soldQuantity" value="0" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品单价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="unitPrice" value="0" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">商品状态</label>
+                <div class="layui-input-block">
+                    <select name="status" lay-filter="status">
+                        <option value="">请选择商品状态</option>
+                        <option value="0">已上架</option>
+                        <option value="1">已下架</option>
+                        <option value="2">缺货</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
     <script type="application/javascript" th:src="@{/layui/layui.all.js}"></script>
     <script type="application/javascript" th:src="@{/js/stock.js}"></script>
 </div>

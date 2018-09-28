@@ -3,9 +3,20 @@ layui.use('form', function () {
 
     form.render();
 
-    form.on('submit(goodsForm)', function (data) {
-        layer.msg(JSON.stringify(data.field));
-        return false;
+    form.on('submit(goodsForm)', function () {
+        $.ajax({
+            type: "POST",
+            url: "record",
+            async: false,
+            data: $("#goodsForm").serialize(),
+            success: function (data) {
+                data = JSON.parse(data);
+                parent.layer.msg(data.msg, {time: 2000});
+            },
+            error: function () {
+                layer.msg("录入信息失败，请稍后重试", {time: 2000});
+            }
+        });
     });
 
     form.on('select(category)', function (data) {
@@ -16,6 +27,8 @@ layui.use('form', function () {
             contentType: "application/json",
             dataType: "json",
             success: function (data) {
+                $("#code").html("");
+                $("#code").append("<option value=''>请选择商品名称</option>");
                 $.each(data.data, function (index, value) {
                     var $option = $("<option></option>").attr("value", value.code).text(value.name);
                     $("#code").append($option);

@@ -10,16 +10,13 @@ layui.use(['table', 'laypage'], function () {
     initTable();
 
     table.on('tool(test)', function (obj) {
-        var layEvent = obj.event;
-        if (layEvent === 'detail') {
-            layer.msg('查看操作');
-        } else if (layEvent === 'del') {
+        if (layEvent === 'del') {
             layer.confirm('真的删除行么', function (index) {
                 obj.del();
                 layer.close(index);
             });
         } else if (layEvent === 'edit') {
-            loadDialog("商品进货", "goods/add", null, null, "90%");
+            layer.msg('编辑操作');
         }
     });
 });
@@ -27,9 +24,10 @@ layui.use(['table', 'laypage'], function () {
 function initTable() {
     table.render({
         elem: "#invoicing_detail",
-        url: "http://localhost:8080/lilun/goods/inbound/list",
+        url: "goods/inbound/list",
         totalRow: true,
-        toolbar: true,
+        toolbar: '#add',
+        defaultToolbar: ['filter', 'print', 'exports'],
         even: true,
         loading: true,
         page: true,
@@ -49,7 +47,6 @@ function initTable() {
                 {field: 'discountedPrice', title: '优惠金额', sort: true, align: 'right', totalRow: true},
                 {field: 'totalPrice', title: '总金额', sort: true, align: 'right', totalRow: true},
                 {field: 'type', title: '类型', sort: true, align: 'center'},
-                {field: 'status', title: '状态', align: 'center'},
                 {
                     field: 'createTime',
                     title: '创建时间',
@@ -82,4 +79,8 @@ function doneCallback(res, curr, count) {
             }
         }
     });
+}
+
+function add() {
+    loadDialog("商品出货", "goods/add/out", null, null, "90%");
 }
