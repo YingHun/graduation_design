@@ -46,7 +46,7 @@ function loadingChart(data) {
         yAxis: [
             {
                 type: 'value',
-                name: '销售数量（万件）',
+                name: '销售数量（件）',
                 min: 0,
                 axisLabel: {
                     formatter: '{value}'

@@ -82,5 +82,5 @@ function doneCallback(res, curr, count) {
 }
 
 function add() {
-    loadDialog("商品出货", "goods/add/out", null, null, "90%");
+    loadDialog("商品出货", "goods/add/in", null, null, "90%");
 }

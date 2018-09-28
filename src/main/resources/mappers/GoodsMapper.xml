@@ -330,7 +330,7 @@
                     curdate( ) AS create_date
             ) a
         LEFT JOIN
-          tb_invoicing_info b ON a.create_date = DATE( b.create_time )
+          tb_invoicing_info b ON a.create_date = DATE( b.create_time ) AND b.type = 'out'
         GROUP BY
           a.create_date
     </select>

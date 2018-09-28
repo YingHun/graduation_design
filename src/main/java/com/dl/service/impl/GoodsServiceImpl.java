@@ -144,7 +144,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         resultList.stream().forEach(map -> {
             legend.add(map.get("create_date").toString());
-            quantity.add(MathUtil.divide(map.get("quantity"), TEN_THOUSAND));
+            quantity.add(map.get("quantity"));
             money.add(MathUtil.divide(map.get("money"), TEN_THOUSAND));
         });
 
